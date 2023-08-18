@@ -1,14 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import logo from "../assets/devflix.png";
 import searchicon from "../assets/search.svg";
 
 import "./App.css";
-import { useState } from "react";
+import MovieCard from "../componentes/movieCard/movieCard";
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [movies, setMovies] = useState([]);
+
   const apikey = "e4d577fa";
-  const apiurl = `https://omdbapi.com/?apikey=${apikey}&s=superman`;
+  const apiurl = `https://omdbapi.com/?apikey=${apikey}`;
 
   useEffect(() => {
     searchMovies("Batman");
@@ -16,15 +18,16 @@ const App = () => {
 
   const searchMovies = async (title) => {
     const response = await fetch(`${apiurl}&s=${title}`);
-    const data = response.json();
+    const data = await response.json();
 
     console.log(data);
+    setMovies(data.Search);
   };
 
   const handlekeypress = (e) => {
-    e === "Enter" && searchMovies(searchTerm)
-    searchMovies(searchTerm)
-  }
+    e === "Enter" && searchMovies(searchTerm);
+    searchMovies(searchTerm);
+  };
 
   return (
     <>
@@ -46,6 +49,17 @@ const App = () => {
             onClick={() => searchMovies(searchTerm)}
           />
         </div>
+        {movies?.length > 0 ? (
+          <div className="container">
+            {movies.map((movie) => (
+              <MovieCard key={movie.imdbID}movies={movie}/>
+            ))}
+          </div>
+        ) : (
+          <div className="empty">
+            <h2>nenhum filme encontrado 🤦‍♂️</h2>
+          </div>
+        )}
       </div>
     </>
   );
