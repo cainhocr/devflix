@@ -4,6 +4,7 @@ import searchicon from "../assets/search.svg";
 
 import "./App.css";
 import MovieCard from "../componentes/movieCard/movieCard";
+import Footer from "../componentes/footer/footer";
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -52,7 +53,7 @@ const App = () => {
         {movies?.length > 0 ? (
           <div className="container">
             {movies.map((movie) => (
-              <MovieCard key={movie.imdbID}movies={movie}/>
+              <MovieCard key={movie.imdbID} movies={movie} />
             ))}
           </div>
         ) : (
@@ -60,6 +61,8 @@ const App = () => {
             <h2>nenhum filme encontrado 🤦‍♂️</h2>
           </div>
         )}
+        
+        <Footer link={"https:github.com.br"}>Cr_Cr_Zn</Footer>
       </div>
     </>
   );
